@@ -12,9 +12,9 @@ public:
     int maxArea(vector<int>& height) {
         int result = 0;
 
-        for (int i = 0, j = height.size() - 1; i < j;) {
-            int minHeight = height[i] < height[j] ? height[i++] : height[j--];
-            result = max(result, (j-i+1)*minHeight); 
+        for (int i = 0, j = height.size() -1; i < j;) {
+            int length = height[i] < height[j] ? height[i++] : height[j--];
+            result = max(result, (j - i + 1)*length);
         }
         return result;
     }
