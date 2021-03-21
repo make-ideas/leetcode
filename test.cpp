@@ -1,42 +1,51 @@
 #include <iostream>
+#include <vector>
+#include <stack>
+#include<algorithm>
+
 using namespace std;
 
 
 
-  struct ListNode {
-      int val;
-      ListNode *next;
-      ListNode() : val(0), next(nullptr) {}
-      ListNode(int x) : val(x), next(nullptr) {}
-      ListNode(int x, ListNode *next) : val(x), next(next) {}
- };
 class Solution {
 public:
-    ListNode* swapPairs(ListNode* head) {
-        ListNode* dummyHead = new ListNode(0);
-        dummyHead->next = head;
-        ListNode* cur =  dummyHead;
-        while (cur->next != nullptr && cur->next->next != nullptr) {
-            ListNode* node1 = cur->next;
-            ListNode* node2 = cur->next->next;
-            cur->next = node2;
-            node1->next = node2->next;
-            node2->next = node1;
-            cur = node1; 
+    void clearStack(stack<int> &s){
+        while (!s.empty()){
+            s.pop();
         }
-        return dummyHead->next;   
+    }
+    int maxAscendingSum(vector<int>& nums) {
+        stack<int> store;
+        if (nums.size() == 0) return 0;
+        if (nums.size() == 1) return nums[0];
+        store.push(nums[0]);
+        int sum_temp = nums[0];
+        vector<int> sum;
+        
+        for (int i = 1; i < nums.size() ; i++) {          
+            if (nums[i] > store.top()) {
+                sum_temp = sum_temp + nums[i];
+                store.push(nums[i]);   
+            } else {
+                sum.push_back(sum_temp);
+                clearStack(store);
+                store.push(nums[i]);
+                sum_temp = nums[i];
+            } 
+            if (i == nums.size() - 1) {
+                 sum.push_back(sum_temp);
+            } 
+        }    
+        sort(sum.rbegin(),sum.rend());
+        return sum[0];
     }
 };
-
 int main()
 {
     Solution solution;
-    ListNode* mylist = new ListNode(1);
-    mylist->next = new ListNode(2);
-    mylist->next = new ListNode(3);
-    mylist->next = new ListNode(4);
-    cout << mylist << endl;
-    solution.swapPairs(mylist);
+    //string s = "(()())(())";
+    vector<int> nums = {10,20,30,5,10,50};
+    solution.maxAscendingSum(nums);
 
     return 0;
 

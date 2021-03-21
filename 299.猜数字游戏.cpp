@@ -25,7 +25,7 @@ public:
         for (auto it : secretdiff) {
             cowscnt += min(it.second, guessdiff[it.first]);
         }
-         return to_string(bullscnt) + "A" + to_string(cowscnt) + "B";
+        return to_string(bullscnt) + "A" + to_string(cowscnt) + "B";
 
     }
 };

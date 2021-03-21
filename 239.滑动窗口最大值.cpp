@@ -23,6 +23,7 @@ public:
             window.push_back(right);
             right++;
             if(right >= k) res.push_back(nums[window.front()]);
+            
         }
         return res;
     }
