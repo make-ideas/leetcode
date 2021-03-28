@@ -5,47 +5,45 @@
 
 using namespace std;
 
-
-
 class Solution {
 public:
-    void clearStack(stack<int> &s){
-        while (!s.empty()){
-            s.pop();
+    void recursion(int& count, vector<int>& diff, vector<int>& perm, vector<int>& arr) {
+        if (diff == arr ) {
+            return ;
         }
-    }
-    int maxAscendingSum(vector<int>& nums) {
-        stack<int> store;
-        if (nums.size() == 0) return 0;
-        if (nums.size() == 1) return nums[0];
-        store.push(nums[0]);
-        int sum_temp = nums[0];
-        vector<int> sum;
         
-        for (int i = 1; i < nums.size() ; i++) {          
-            if (nums[i] > store.top()) {
-                sum_temp = sum_temp + nums[i];
-                store.push(nums[i]);   
+        int n = perm.size();
+        for (int i = 0; i < n; i++){
+            if (i % 2 == 0) {
+                arr[i] = perm[i / 2];
             } else {
-                sum.push_back(sum_temp);
-                clearStack(store);
-                store.push(nums[i]);
-                sum_temp = nums[i];
-            } 
-            if (i == nums.size() - 1) {
-                 sum.push_back(sum_temp);
-            } 
-        }    
-        sort(sum.rbegin(),sum.rend());
-        return sum[0];
+                arr[i] = perm[n / 2 + (i - 1) / 2];
+            }  
+            perm[i] = arr[i];
+        }
+        cout << count << endl;
+        recursion(++count, diff, perm, arr);
+    }
+    
+    int reinitializePermutation(int n) {
+        vector<int> perm(n, 0), arr(n, 0), diff(n, 0);
+        int count = 0;
+        for (int i = 0; i < n; i ++) {
+            perm[i] = i;
+            diff[i] = i;
+        }
+        recursion(count, diff,perm, arr);
+        return count;
     }
 };
+
+
 int main()
 {
     Solution solution;
     //string s = "(()())(())";
-    vector<int> nums = {10,20,30,5,10,50};
-    solution.maxAscendingSum(nums);
+    int num = 4;
+    solution.reinitializePermutation(num);
 
     return 0;
 
